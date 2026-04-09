@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://cg0yljx25gynw"]
+
+[ext_resource type="Texture2D" uid="uid://23rqddatjku3" path="res://ui_scenes/mouse/tooltipBox.png" id="1_7hjfd"]
+[ext_resource type="Script" uid="uid://dc2qogs7vu5pw" path="res://ui_scenes/eventEditor/event_editor.gd" id="1_brjw4"]
+[ext_resource type="PackedScene" uid="uid://bpvjj7yh5ww8w" path="res://ui_scenes/eventEditor/event_type_picker.tscn" id="2_5kfwu"]
+[ext_resource type="Texture2D" uid="uid://xxhqegm7rq6n" path="res://ui_scenes/button sprites/add.png" id="3_5kfwu"]
+[ext_resource type="PackedScene" uid="uid://dctiijbsb6y06" path="res://ui_scenes/eventEditor/microphone_toggle_editor.tscn" id="3_qup5k"]
+[ext_resource type="Texture2D" uid="uid://c5jh6c65tusu5" path="res://ui_scenes/button sprites/exit.png" id="5_8ilfc"]
+[ext_resource type="PackedScene" uid="uid://ch6fv5eyac8m3" path="res://ui_scenes/eventEditor/costume_change_editor.tscn" id="5_erkgv"]
+
+[node name="EventEditor" type="Node2D" unique_id=1776477795]
+script = ExtResource("1_brjw4")
+
+[node name="SmallerEditWindows" type="Node2D" parent="." unique_id=1532033734]
+position = Vector2(0, 486.28)
+
+[node name="CostumeChangeEditor" parent="SmallerEditWindows" unique_id=782472258 instance=ExtResource("5_erkgv")]
+visible = false
+
+[node name="MicrophoneToggleEditor" parent="SmallerEditWindows" unique_id=663767602 instance=ExtResource("3_qup5k")]
+visible = false
+
+[node name="EventTypePicker" parent="." unique_id=1335486711 instance=ExtResource("2_5kfwu")]
+visible = false
+position = Vector2(443, 0)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=2016505683]
+offset_right = 419.0
+offset_bottom = 462.0
+texture = ExtResource("1_7hjfd")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Buttons" type="Node2D" parent="." unique_id=317669971]
+
+[node name="Button" type="Button" parent="Buttons" unique_id=125535742]
+offset_left = 342.0
+offset_top = 16.0
+offset_right = 398.0
+offset_bottom = 72.0
+icon = ExtResource("3_5kfwu")
+flat = true
+
+[node name="Exit Button" type="Button" parent="Buttons" unique_id=1877675793]
+offset_left = 13.0
+offset_top = 16.0
+offset_right = 69.0
+offset_bottom = 72.0
+icon = ExtResource("5_8ilfc")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1416109693]
+custom_minimum_size = Vector2(300, 300)
+offset_left = 6.0
+offset_top = 144.0
+offset_right = 413.0
+offset_bottom = 456.0
+color = Color(0.1130035, 0.14750004, 0.15690604, 1)
+
+[node name="OptionsContainer" type="ScrollContainer" parent="." unique_id=1290095011]
+offset_left = 6.0
+offset_top = 144.0
+offset_right = 413.0
+offset_bottom = 456.0
+
+[node name="GridContainer" type="GridContainer" parent="OptionsContainer" unique_id=2041212655]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="." unique_id=1533967464]
+offset_left = 134.0
+offset_top = 115.0
+offset_right = 272.0
+offset_bottom = 149.0
+text = "Events"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Buttons/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Buttons/Exit Button" to="." method="_on_exit_button_pressed"]

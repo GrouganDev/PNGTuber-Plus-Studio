@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://bpvjj7yh5ww8w"]
+
+[ext_resource type="Texture2D" uid="uid://23rqddatjku3" path="res://ui_scenes/mouse/tooltipBox.png" id="1_ehe6s"]
+[ext_resource type="Script" uid="uid://ss5qql3jksho" path="res://ui_scenes/eventEditor/event_type_picker.gd" id="1_unx3h"]
+
+[node name="EventTypePicker" type="Node2D" unique_id=1335486711]
+script = ExtResource("1_unx3h")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=576143612]
+offset_right = 419.0
+offset_bottom = 462.0
+texture = ExtResource("1_ehe6s")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="OptionsContainer" type="ScrollContainer" parent="." unique_id=558358865]
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 408.0
+offset_bottom = 358.0
+
+[node name="GridContainer" type="GridContainer" parent="OptionsContainer" unique_id=707097291]
+layout_mode = 2
+
+[node name="ChangeCostumeButton" type="Button" parent="OptionsContainer/GridContainer" unique_id=315853811]
+custom_minimum_size = Vector2(397, 47.495)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OptionsContainer/GridContainer/ChangeCostumeButton" unique_id=668466581]
+layout_mode = 0
+offset_right = 397.0
+offset_bottom = 47.0
+text = "Change Costume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ToggleMicrophoneButton" type="Button" parent="OptionsContainer/GridContainer" unique_id=49242262]
+custom_minimum_size = Vector2(397, 47.495)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OptionsContainer/GridContainer/ToggleMicrophoneButton" unique_id=1032277923]
+layout_mode = 0
+offset_right = 397.0
+offset_bottom = 47.0
+text = "Toggle Microphone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlaySoundButton" type="Button" parent="OptionsContainer/GridContainer" unique_id=1922191991]
+custom_minimum_size = Vector2(397, 47.495)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OptionsContainer/GridContainer/PlaySoundButton" unique_id=643857890]
+layout_mode = 0
+offset_right = 397.0
+offset_bottom = 47.0
+text = "Play Sound"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CancelButton" type="Button" parent="." unique_id=605922361]
+custom_minimum_size = Vector2(308.22, 47)
+offset_left = 57.0
+offset_top = 376.0
+offset_right = 365.22
+offset_bottom = 423.0
+
+[node name="Label" type="Label" parent="CancelButton" unique_id=574670378]
+layout_mode = 0
+offset_top = 1.0
+offset_right = 308.0
+offset_bottom = 47.0
+text = "Cancel"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="OptionsContainer/GridContainer/ChangeCostumeButton" to="." method="_on_change_costume_button_pressed"]
+[connection signal="pressed" from="OptionsContainer/GridContainer/ToggleMicrophoneButton" to="." method="_on_toggle_microphone_button_pressed"]
+[connection signal="pressed" from="OptionsContainer/GridContainer/PlaySoundButton" to="." method="_on_play_sound_button_pressed"]
+[connection signal="pressed" from="CancelButton" to="." method="_on_cancel_button_pressed"]

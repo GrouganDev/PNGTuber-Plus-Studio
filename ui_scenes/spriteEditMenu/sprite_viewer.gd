@@ -12,6 +12,17 @@ extends Node2D
 
 @onready var extraAnimCollider = $Area2D/AnimBoxCollisionShape2D
 
+@onready var eventMenuCollider = $Area2D/EventMenuShape
+
+@onready var eventSelecterCollider = $Area2D/EventSelecterShape
+
+@onready var eventEditorShape = $Area2D/EventEditorShape
+
+@onready var eventEditor = $EventEditor
+
+#Custom Signals
+signal costumeChanged
+
 
 func _ready():
 	Global.spriteEdit = self
@@ -105,6 +116,17 @@ func _process(delta):
 	visible = Global.heldSprite != null
 	coverCollider.disabled = !visible
 	extraAnimCollider.disabled = !$ExtraAnimationOptions.visible
+	eventMenuCollider.disabled = !eventEditor.visible
+	eventSelecterCollider.disabled = !eventEditor.get_child(1).visible
+	
+	var smallerEditWindowsOpen = false
+	for editor in Global.smallerEditWindows.get_children():
+		if editor.visible:
+			smallerEditWindowsOpen = true
+	
+	eventEditorShape.disabled = !smallerEditWindowsOpen
+	
+	
 	
 	if !visible:
 		return
@@ -227,7 +249,8 @@ func setLayerButtons():
 		else:
 			sprite.visible = false
 			sprite.changeCollision(false)
-		
+	
+	
 
 
 func _on_layer_button_1_pressed():
@@ -328,7 +351,8 @@ func layerSelected():
 		10:
 			newPos = $Layers/Layer10.position
 	$Layers/Select.position = newPos
-
+	
+	costumeChanged.emit()
 
 func _on_squash_value_changed(value):
 	$Rotation/squashlabel.text = "squash: " + str(value)
@@ -392,3 +416,11 @@ func _on_randomize_speed_toggled(toggled_on: bool) -> void:
 	
 	$ExtraAnimationOptions/Sliders/SpeedMinSlider.editable = toggled_on
 	$ExtraAnimationOptions/Sliders/SpeedMaxSlider.editable = toggled_on
+
+
+func _on_reset_anim_on_change_toggled(toggled_on: bool) -> void:
+	Global.heldSprite.resetAnimOnChange = toggled_on
+
+
+func _on_event_editor_pressed() -> void:
+	eventEditor.visible = true

@@ -73,6 +73,8 @@ var ignoreBounce = false
 #Animation
 var frames = 1
 var animSpeed = 0
+var animationTick = Global.animationTick
+var prevTick = 0 #Keep track of when a tick updates
 
 var remadePolygon = false
 
@@ -86,12 +88,24 @@ var randomizeSpeed = false
 var minRandSpeed = 1
 var maxRandSpeed = 1
 
+var resetAnimOnChange = false
+
 #Vis toggle
 var toggle = "null"
+
+#Event Frame Maps
+var costumeChanges = {}
+var microphoneToggles = {}
+var soundToggles = {}
+
+#Event Checked Flag
+var eventChecked = false
 
 func _ready():
 	
 	Global.main.spriteVisToggles.connect(visToggle)
+	Global.spriteEdit.costumeChanged.connect(_on_sprite_viewer_costume_changed)
+	
 	
 	var img = Image.new()
 	var err = img.load(path)
@@ -220,7 +234,12 @@ func replaceSprite(pathNew):
 		remakePolygon()
 
 func _process(delta):
+	if animationTick == 0:
+		checkEvents()
+	
 	tick += 1
+	animationTick += 1
+	
 	if Global.heldSprite == self:
 		
 		grabArea.visible = true
@@ -253,12 +272,16 @@ func _process(delta):
 	talkBlink()
 	
 	animation()
+	
+	
+	
+	
 
 func animation():
-	
 	var speed = max(float(animSpeed),Engine.max_fps*6.0)
+	
 	if animSpeed > 0 and frames > 1:
-		if Global.animationTick % int((speed)/float(animSpeed)) == 0:
+		if animationTick % int((speed)/float(animSpeed)) == 0:
 			if sprite.frame == frames - 1:
 				sprite.frame = 0
 			else:
@@ -270,8 +293,44 @@ func animation():
 			if randomizeSpeed:
 				animSpeed = Global.rand.randi_range(minRandSpeed, maxRandSpeed)
 				
+			eventChecked = false
+			
+			checkEvents()
+
 	if frames > 1:
 		remakePolygon()
+		
+		
+
+func checkEvents():
+	#Make sure microphone is enabled whenever there are no events to change it
+	#if microphoneToggles.size() == 0:
+		#Global.micEnabled = true
+	#eventChecked = true
+	
+	
+	if !grabArea.monitorable:
+		return
+
+	var frame = str(sprite.frame + 1)
+	#Toggle Microphone
+	#print(soundToggles)
+	if microphoneToggles.has(frame) and microphoneToggles[frame] != null:
+		Global.micEnabled = microphoneToggles[frame]
+		#print(Global.micEnabled)
+		
+	
+	#Play Sound
+	if soundToggles.has(frame) and is_instance_valid(soundToggles[frame][0]):
+		#print("test")
+		soundToggles[frame][0].play()
+	
+	#Change Costume
+	if costumeChanges.has(frame):
+		#print("change costume to " + str(costumeChanges[frame]))
+		Global.main.changeCostume(costumeChanges[frame])
+	
+	
 
 func setZIndex():
 	sprite.z_index = z
@@ -423,3 +482,9 @@ func visToggle(keys):
 
 func makeVis():
 	$WobbleOrigin/DragOrigin.visible = true
+
+func _on_sprite_viewer_costume_changed():
+	animationTick = 0
+	
+	if resetAnimOnChange:
+		sprite.frame = 0

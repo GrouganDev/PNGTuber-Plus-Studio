@@ -7,6 +7,16 @@ var fail = null
 var mouse = null
 var spriteList = null
 var chain = null
+var menuItemsContainer = null
+var hoverTextBox = null
+
+var costumeChangeEditor = null
+var toggleMicEditor = null
+var playSoundEditor = null
+
+var eventSoundHolder = null
+
+var smallerEditWindows = null
 
 var animationTick = 0
 
@@ -18,6 +28,7 @@ var truncating = true
 var heldSprite = null
 var lastArray = []
 var i = 0
+var heldEvent = null
 
 var reparentMode = false
 var scrollSelection = 0
@@ -33,6 +44,8 @@ var blinkTick = 0
 #Audio Listener
 
 var currentMicrophone = null
+
+var micEnabled = null
 
 var speaking = false
 var spectrum
@@ -55,6 +68,11 @@ var dragging = false
 
 var rand = RandomNumberGenerator.new()
 
+var menuRowItem = preload("res://ui_scenes/eventEditor/menu_item.tscn")
+
+#Event type enum
+enum eventTypes {CHANGE_COSTUME, TOGGLE_MICROPHONE, PLAY_SOUND}
+
 func _ready():
 	spectrum = AudioServer.get_bus_effect_instance(1, 1)
 	
@@ -69,6 +87,7 @@ func _ready():
 	createMicrophone()
 
 func createMicrophone():
+	micEnabled = true
 	var playa = AudioStreamPlayer.new()
 	var mic = AudioStreamMicrophone.new()
 	playa.stream = mic
@@ -101,6 +120,10 @@ func _process(delta):
 	
 	var prev = speaking
 	speaking = volumeSensitivity > senseLimit
+	
+	if !micEnabled:
+		speaking = false
+		prev = !speaking
 	
 	if prev != speaking:
 		if speaking:
@@ -157,6 +180,8 @@ func select(areas):
 	for area in areas:
 		if area.is_in_group("penis"):
 			return
+	
+	heldEvent = null
 	
 	var prevSpr = heldSprite
 	if areas.size() <= 0:

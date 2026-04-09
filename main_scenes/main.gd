@@ -16,6 +16,7 @@ var editMode = true
 @onready var replaceDialog = $ReplaceDialog
 @onready var saveDialog = $SaveDialog
 @onready var loadDialog = $LoadDialog
+@onready var audioDialog = $AudioFileDialog
 
 @onready var lines = $Lines
 
@@ -183,7 +184,7 @@ func followShadow():
 	
 
 func isFileSystemOpen():
-	for obj in [replaceDialog,fileDialog,saveDialog,loadDialog]:
+	for obj in [replaceDialog,fileDialog,saveDialog,loadDialog, audioDialog]:
 		if obj.visible:
 			if obj == replaceDialog:
 				return true
@@ -383,9 +384,21 @@ func _on_load_dialog_file_selected(path):
 			sprite.minRandSpeed = data[item]["minRandSpeed"]
 		if data[item].has("maxRandSpeed"):
 			sprite.maxRandSpeed = data[item]["maxRandSpeed"]
+			
+		if data[item].has("resetAnimOnChange"):
+			sprite.resetAnimOnChange = data[item]["resetAnimOnChange"]
+		
+		if data[item].has("costumeChanges"):
+			sprite.costumeChanges = data[item]["costumeChanges"]
+		if data[item].has("microphoneToggles"):
+			sprite.microphoneToggles = data[item]["microphoneToggles"]
+		if data[item].has("soundToggles"):
+			sprite.soundToggles = data[item]["soundToggles"]
+			loadEvents(sprite) #If soundToggles exists, then the other two maps will too
 		
 		origin.add_child(sprite)
 		sprite.position = str_to_var(data[item]["pos"])
+		
 	
 	changeCostume(1)
 	Saving.settings["lastAvatar"] = path
@@ -394,7 +407,57 @@ func _on_load_dialog_file_selected(path):
 	Global.pushUpdate("Loaded avatar at: " + path)
 	
 	onWindowSizeChange()
-	
+
+
+#LOAD EVENTS
+func loadEvents(sprite):
+	iterateEvents(sprite, sprite.costumeChanges, Global.eventTypes.CHANGE_COSTUME)
+	iterateEvents(sprite, sprite.microphoneToggles, Global.eventTypes.TOGGLE_MICROPHONE)
+	iterateAudioEvents(sprite, sprite.soundToggles, Global.eventTypes.PLAY_SOUND)
+
+
+func iterateEvents(sprite, map, type):
+	for frame in map:
+		var newRow = Global.menuRowItem.instantiate()
+		if newRow != null:
+			newRow.eventType = type
+			Global.menuItemsContainer.add_child(newRow)
+			newRow.eventData = map[frame]
+			newRow.frameInput.text = str(frame)
+			newRow.frameIndex = frame
+			newRow.assignedSprite = sprite
+			
+
+func iterateAudioEvents(sprite, map, type):
+	for frame in map:
+		var newRow = Global.menuRowItem.instantiate()
+		if newRow != null:
+			
+			newRow.eventType = type
+			Global.menuItemsContainer.add_child(newRow)
+			#var audioPlayer = AudioStreamPlayer.new()
+			#var path = map[frame][1]
+			#var extension = (path.substr(len(path) - 3)).to_lower()
+			#match extension:
+				#"wav":
+					#audioPlayer.stream = AudioStreamWAV.load_from_file(path)
+				#"ogg":
+					#audioPlayer.stream = AudioStreamOggVorbis.load_from_file(path)
+				#"mp3":
+					#audioPlayer.stream = AudioStreamMP3.load_from_file(path)
+			#audioPlayer.volume_db = 0
+			#audioPlayer.pitch_scale = 1
+			#audioPlayer.bus = "Master"
+			#
+			#Global.main.add_child(audioPlayer)
+			
+			#newRow.audioPlayer = audioPlayer
+			newRow._on_audio_file_selected(map[frame][1])
+			map[frame] = newRow.eventData
+			newRow.frameInput.text = str(frame)
+			newRow.frameIndex = frame
+			newRow.assignedSprite = sprite
+
 #SAVE AVATAR
 func _on_save_dialog_file_selected(path):
 	var data = {}
@@ -447,6 +510,12 @@ func _on_save_dialog_file_selected(path):
 			
 			data[id]["minRandSpeed"] = child.minRandSpeed
 			data[id]["maxRandSpeed"] = child.maxRandSpeed
+			
+			data[id]["resetAnimOnChange"] = child.resetAnimOnChange
+			
+			data[id]["costumeChanges"] = child.costumeChanges
+			data[id]["microphoneToggles"] = child.microphoneToggles
+			data[id]["soundToggles"] = child.soundToggles
 			
 		id += 1
 	
@@ -544,17 +613,21 @@ func changeCostumeStreamDeck(id: String):
 		"10":changeCostume(10)
 
 func changeCostume(newCostume):
+	if newCostume == null:
+		return
+
 	costume = newCostume
-	Global.heldSprite = null
+	#Global.heldSprite = null
 	var nodes = get_tree().get_nodes_in_group("saved")
 	for sprite in nodes:
 		if sprite.costumeLayers[newCostume-1] == 1:
 			sprite.visible = true
 			sprite.changeCollision(true)
+			sprite.eventChecked = false
 		else:
 			sprite.visible = false
 			sprite.changeCollision(false)
-	Global.spriteEdit.layerSelected()
+	Global.spriteEdit.layerSelected() #costumeChanged signal is emitted here
 	spriteList.updateAllVisible()
 	
 	if bounceOnCostumeChange:
@@ -665,3 +738,7 @@ func bgInputSprite(node, keys_pressed):
 		return
 	
 	spriteVisToggles.emit(keyStrings)
+
+
+func _on_audio_file_dialog_file_selected(path: String) -> void:
+	Global.heldEvent._on_audio_file_selected(path)

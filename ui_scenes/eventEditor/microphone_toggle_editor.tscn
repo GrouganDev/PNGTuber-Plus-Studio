@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://dctiijbsb6y06"]
+
+[ext_resource type="Script" uid="uid://coxleiyne1lou" path="res://ui_scenes/eventEditor/microphone_toggle_editor.gd" id="1_yc147"]
+[ext_resource type="Texture2D" uid="uid://23rqddatjku3" path="res://ui_scenes/mouse/tooltipBox.png" id="2_yc147"]
+[ext_resource type="Texture2D" uid="uid://b26x6kss2fvsi" path="res://ui_scenes/spriteEditMenu/grab.png" id="3_upy25"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnjli"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.666667, 0.772549, 0.8, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_harpr"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.664063, 0.769531, 0.796875, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0jdan"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.117188, 0.15625, 0.183594, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_mrbyn"]
+HSlider/icons/grabber = ExtResource("3_upy25")
+HSlider/icons/grabber_disabled = ExtResource("3_upy25")
+HSlider/icons/grabber_highlight = ExtResource("3_upy25")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_hnjli")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_harpr")
+HSlider/styles/slider = SubResource("StyleBoxFlat_0jdan")
+
+[node name="MicrophoneToggleEditor" type="Node2D" unique_id=782472258]
+script = ExtResource("1_yc147")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1674905419]
+offset_right = 351.0
+offset_bottom = 193.0
+texture = ExtResource("2_yc147")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="ToggleMicrophone" type="Label" parent="." unique_id=1721380743]
+offset_left = -54.0
+offset_top = 37.0
+offset_right = 353.0
+offset_bottom = 108.0
+text = "Toggle Microphone"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="Node2D" parent="." unique_id=1004261800]
+position = Vector2(175, 152)
+
+[node name="CancelButton" type="Button" parent="Buttons" unique_id=1112342967]
+offset_left = -100.0
+offset_right = -29.0
+offset_bottom = 31.0
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="Buttons" unique_id=764345779]
+offset_left = 25.0
+offset_right = 96.0
+offset_bottom = 31.0
+text = "Confirm
+"
+
+[node name="CheckButton" type="CheckButton" parent="Buttons" unique_id=192928348]
+offset_left = 64.0
+offset_top = -90.0
+offset_right = 108.0
+offset_bottom = -66.0
+theme = SubResource("Theme_mrbyn")
+button_pressed = true
+
+[connection signal="pressed" from="Buttons/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="Buttons/ConfirmButton" to="." method="_on_confirm_button_pressed"]
