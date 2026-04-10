@@ -328,7 +328,7 @@ func checkEvents():
 	#Change Costume
 	if costumeChanges.has(frame):
 		#print("change costume to " + str(costumeChanges[frame]))
-		Global.main.changeCostume(costumeChanges[frame])
+		Global.main.changeCostume((int)(costumeChanges[frame]))
 	
 	
 

@@ -154,8 +154,6 @@ func changeEventMapPosition(newFrame, eventMap):
 		frameIndex = newFrame
 
 func setUpAudioEvent(path: String, volume: float):
-	print(path, volume)
-	
 	if eventData != null and is_instance_valid(eventData[0]):
 		eventData[0].queue_free()
 	

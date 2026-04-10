@@ -3,7 +3,6 @@ extends Node2D
 
 @onready var optionsContainer = $OptionsContainer/GridContainer
 @onready var eventPicker = $EventTypePicker
-@onready var audioFileDialog = $SmallerEditWindows/AudioFileDialog
 
 var newRow = null
 
