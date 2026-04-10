@@ -14,7 +14,6 @@ func _process(delta: float) -> void:
 		label.text = ""
 		label.size = Vector2(1.0, 23.0)
 		
-	print(label.size)
 	resize()
 	
 

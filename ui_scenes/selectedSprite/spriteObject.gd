@@ -321,7 +321,7 @@ func checkEvents():
 		
 	
 	#Play Sound
-	if soundToggles.has(frame) and is_instance_valid(soundToggles[frame][0]):
+	if soundToggles.has(frame) and soundToggles[frame] != null:
 		#print("test")
 		soundToggles[frame][0].play()
 	

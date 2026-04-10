@@ -147,7 +147,6 @@ func _process(delta):
 	spriteRotDisplay.rotation_degrees = sin(Global.animationTick*0.05)*(size/2.0)+(minimum+(size/2.0))
 	$RotationalLimits/RotBack/RotLineDisplay3.rotation_degrees = spriteRotDisplay.rotation_degrees
 
-
 func _on_drag_slider_value_changed(value):
 	if Global.heldSprite != null:
 		$Slider/Label.text = "drag: " + str(value)

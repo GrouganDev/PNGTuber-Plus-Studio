@@ -188,7 +188,8 @@ func isFileSystemOpen():
 		if obj.visible:
 			if obj == replaceDialog:
 				return true
-			Global.heldSprite = null
+			if obj != audioDialog:
+				Global.heldSprite = null
 			return true
 	return false
 
@@ -433,26 +434,13 @@ func iterateAudioEvents(sprite, map, type):
 		var newRow = Global.menuRowItem.instantiate()
 		if newRow != null:
 			
+			if typeof(map[frame][1]) == TYPE_STRING:
+				var newAssignment = [null, [map[frame][1], 0]]
+				map[frame] = newAssignment
+			
 			newRow.eventType = type
 			Global.menuItemsContainer.add_child(newRow)
-			#var audioPlayer = AudioStreamPlayer.new()
-			#var path = map[frame][1]
-			#var extension = (path.substr(len(path) - 3)).to_lower()
-			#match extension:
-				#"wav":
-					#audioPlayer.stream = AudioStreamWAV.load_from_file(path)
-				#"ogg":
-					#audioPlayer.stream = AudioStreamOggVorbis.load_from_file(path)
-				#"mp3":
-					#audioPlayer.stream = AudioStreamMP3.load_from_file(path)
-			#audioPlayer.volume_db = 0
-			#audioPlayer.pitch_scale = 1
-			#audioPlayer.bus = "Master"
-			#
-			#Global.main.add_child(audioPlayer)
-			
-			#newRow.audioPlayer = audioPlayer
-			newRow._on_audio_file_selected(map[frame][1])
+			newRow.setUpAudioEvent(map[frame][1][0], map[frame][1][1])
 			map[frame] = newRow.eventData
 			newRow.frameInput.text = str(frame)
 			newRow.frameIndex = frame
@@ -741,4 +729,5 @@ func bgInputSprite(node, keys_pressed):
 
 
 func _on_audio_file_dialog_file_selected(path: String) -> void:
-	Global.heldEvent._on_audio_file_selected(path)
+	#Global.heldEvent._on_audio_file_selected(path)
+	Global.playSoundEditor.filePathInput.text = path

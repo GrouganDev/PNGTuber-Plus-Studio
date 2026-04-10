@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bpvjj7yh5ww8w" path="res://ui_scenes/eventEditor/event_type_picker.tscn" id="2_5kfwu"]
 [ext_resource type="Texture2D" uid="uid://xxhqegm7rq6n" path="res://ui_scenes/button sprites/add.png" id="3_5kfwu"]
 [ext_resource type="PackedScene" uid="uid://dctiijbsb6y06" path="res://ui_scenes/eventEditor/microphone_toggle_editor.tscn" id="3_qup5k"]
+[ext_resource type="PackedScene" uid="uid://dmxkwsi4cbkhp" path="res://ui_scenes/eventEditor/sound_play_editor.tscn" id="4_bajtt"]
 [ext_resource type="Texture2D" uid="uid://c5jh6c65tusu5" path="res://ui_scenes/button sprites/exit.png" id="5_8ilfc"]
 [ext_resource type="PackedScene" uid="uid://ch6fv5eyac8m3" path="res://ui_scenes/eventEditor/costume_change_editor.tscn" id="5_erkgv"]
 
@@ -18,6 +19,9 @@ position = Vector2(0, 486.28)
 visible = false
 
 [node name="MicrophoneToggleEditor" parent="SmallerEditWindows" unique_id=663767602 instance=ExtResource("3_qup5k")]
+visible = false
+
+[node name="CostumeChangeEditor2" parent="SmallerEditWindows" unique_id=713239848 instance=ExtResource("4_bajtt")]
 visible = false
 
 [node name="EventTypePicker" parent="." unique_id=1335486711 instance=ExtResource("2_5kfwu")]

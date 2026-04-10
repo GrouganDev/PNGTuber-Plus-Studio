@@ -70,7 +70,10 @@ func updateValueLabel():
 			valueLabel.text = "Current Value:\n"+ str(eventData)
 		Global.eventTypes.PLAY_SOUND:
 			#var fileNames = eventData[1].split("/")
-			valueLabel.text = "Current Value:\n"+ str(eventData[1])
+			var data = null
+			if eventData != null:
+				data = "File: " + str(eventData[1][0]) + "\nVolume: " + str(eventData[1][1])
+			valueLabel.text = "Current Value:\n"+ str(data)
 
 
 func _on_delete_button_pressed() -> void:
@@ -110,7 +113,8 @@ func _on_edit_button_pressed() -> void:
 			Global.toggleMicEditor.visible = true
 		Global.eventTypes.PLAY_SOUND:
 			#audioFileDialogue.show()
-			Global.main.audioDialog.show()
+			#Global.main.audioDialog.show()
+			Global.playSoundEditor.visible = true
 
 
 func _on_line_edit_text_changed(new_text: String) -> void:
@@ -149,10 +153,11 @@ func changeEventMapPosition(newFrame, eventMap):
 		eventMap.erase(frameIndex)
 		frameIndex = newFrame
 
-func _on_audio_file_selected(path: String):
+func setUpAudioEvent(path: String, volume: float):
+	print(path, volume)
 	
-	if is_instance_valid(eventData):
-		eventData.queue_free()
+	if eventData != null and is_instance_valid(eventData[0]):
+		eventData[0].queue_free()
 	
 	audioPlayer = AudioStreamPlayer.new()
 	
@@ -164,13 +169,13 @@ func _on_audio_file_selected(path: String):
 			audioPlayer.stream = AudioStreamOggVorbis.load_from_file(path)
 		"mp3":
 			audioPlayer.stream = AudioStreamMP3.load_from_file(path)
-	audioPlayer.volume_db = 0
+	audioPlayer.volume_db = volume
 	audioPlayer.pitch_scale = 1
 	audioPlayer.bus = "Master"
 	
 	Global.main.add_child(audioPlayer)
 	
-	eventData = [audioPlayer, path]
+	eventData = [audioPlayer, [path, audioPlayer.volume_db]]
 	
 	if frameInput.text != "":
 		assignedSprite.soundToggles[frameIndex] = eventData

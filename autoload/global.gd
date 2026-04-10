@@ -181,7 +181,7 @@ func select(areas):
 		if area.is_in_group("penis"):
 			return
 	
-	heldEvent = null
+	#heldEvent = null
 	
 	var prevSpr = heldSprite
 	if areas.size() <= 0:
