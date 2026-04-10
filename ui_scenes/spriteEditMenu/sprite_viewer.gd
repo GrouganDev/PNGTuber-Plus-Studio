@@ -90,6 +90,8 @@ func setImage():
 	$ExtraAnimationOptions/Buttons/RandomizeAnimation.button_pressed = Global.heldSprite.randomizeAnim
 	$ExtraAnimationOptions/Buttons/RandomizeSpeed.button_pressed = Global.heldSprite.randomizeSpeed
 	
+	$ExtraAnimationOptions/Buttons/ResetAnimOnChange.button_pressed = Global.heldSprite.resetAnimOnChange
+	
 	
 	changeRotLimit()
 	
