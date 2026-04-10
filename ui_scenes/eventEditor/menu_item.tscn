@@ -25,7 +25,7 @@ offset_right = 68.5
 offset_bottom = 76.124565
 placeholder_text = "Frame"
 alignment = 1
-max_length = 2
+max_length = 3
 
 [node name="EditButton" type="Control" parent="HBoxContainer" unique_id=1673627553]
 layout_mode = 2

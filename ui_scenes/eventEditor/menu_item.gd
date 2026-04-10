@@ -133,7 +133,7 @@ func _on_line_edit_text_changed(new_text: String) -> void:
 			changeEventMapPosition(newFrame, assignedSprite.soundToggles)
 
 func sanitizeText(text):
-	if text.is_valid_int() and (int)(text) <= 64 and (int)(text) >= 1:
+	if text.is_valid_int() and (int)(text) <= 128 and (int)(text) >= 1:
 		return
 	elif text == "":
 		return
