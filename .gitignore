@@ -3,3 +3,6 @@
 .export/
 .itchio/
 .steam/
+
+# Standard ignores
+.exe/
