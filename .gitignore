@@ -5,4 +5,4 @@
 .steam/
 
 # Standard ignores
-.exe/
+*.exe
