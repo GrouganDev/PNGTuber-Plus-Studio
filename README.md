@@ -1,5 +1,7 @@
 This is a Godot 4.6.2 project. Code is currently being updated to add many QoL features:
 
+Documentation can be found [here](https://github.com/GrouganDev/PNGTuber-Plus-Studio/blob/master/docs/Documentation.md)!
+
 ## Already Created Features
 - Event System!
 - Random animations (let the program pick which frames to show at random)
