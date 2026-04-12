@@ -327,6 +327,8 @@ func _on_load_dialog_file_selected(path):
 	$OriginMotion.add_child(new)
 	origin = new
 	
+	Global.micEnabled = true
+	
 	for item in data:
 		var sprite = spriteObject.instantiate()
 		sprite.path = data[item]["path"]
@@ -606,6 +608,8 @@ func changeCostumeStreamDeck(id: String):
 func changeCostume(newCostume):
 	if newCostume == null:
 		return
+	
+	Global.micEnabled = true
 
 	costume = newCostume
 	#Global.heldSprite = null
