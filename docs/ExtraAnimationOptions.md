@@ -10,7 +10,7 @@ Changes the animation speed of a sprite to a new random value every time a new f
 ![ezgif com-resize](https://github.com/user-attachments/assets/16a5d15d-4130-4ae3-9fd2-6a29ab84849f)
 
 The minimum and maximum random values can be configured by the user through the two sliders underneath "Randomize speed" checkbox.
-/
+\
 <img width="234" height="121" alt="Screenshot 2026-04-11 185940" src="https://github.com/user-attachments/assets/058385fb-a0c8-49e6-9123-1f17f91b865f" />
 
 
