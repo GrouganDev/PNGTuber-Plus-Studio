@@ -21,7 +21,7 @@ If you click the white plus button, a new tab will be displayed, showing you a s
 <img width="410" height="451" alt="Screenshot 2026-04-11 193759" src="https://github.com/user-attachments/assets/600cbd00-c3e4-421a-88b0-5c8ae4738396" />
 \
 \
-Now, you will see that a new item in your drop-down list has appeared\
+Now, you will see that a new item in your drop-down list has appeared
 
 ## Frame Input
 Input the frame of your animation where you wish for the event to execute\
